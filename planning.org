@@ -1,0 +1,11 @@
+* Complexity
+** Discrete Math vs our experience with continuous math
+
+
+** Form of data
+Need to handle many formats - manufacturer and year
+
+** Necessary Features:
+FFT
+Peak Picking
+Integration
