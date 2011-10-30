@@ -15,37 +15,34 @@ div.menu {
 div.button {
     position: relative;
     float: left;
-    height: 1.3em;
     padding: 0.45em 1em;
+    color: white;
     vertical-align: middle;
     font-size: 0.75em;
     font-weight: bold;
-    color: #EEE;
 }
 
 div.button:hover {
-    margin: 0 -1px;
-    color: white;
-    border-left: 1px solid #66F;
-    border-right: 1px solid #66F;
-    background-image: -moz-linear-gradient(top, #AAF, #33F);
-    cursor: pointer;
+    background-image: -moz-linear-gradient(top, #CCF, #55F);
+    background-image: -webkit-linear-gradient(top, #CCF, #55F);
+    background-image: -ie-linear-gradient(top, #CCF, #55F);
+    background-image: -o-linear-gradient(top, #CCF, #55F);
+    cursor: default;
 }
 
 div.list {
+    display: none;
     position: absolute;
-    top: 2.25em;
+    bottom: 0;
     left: 0;
-    width: 100em;
+    width: 50em; /* Needs to be any value larger than width of menu items*/
+    cursor: pointer;
 }
 
 ul {
     position: absolute;
-    display: none;
     margin: 0;
     padding: 0;
-    border: 1px solid #AAF;
-    border-top: none;
     box-shadow: 0px 1px 5px #888;
     list-style-type: none;
 }
@@ -58,13 +55,12 @@ li {
     border-bottom: 1px solid #66F;
 }
 
-div.button:hover ul{
-    display: block;
+li:hover {
+    background-image: -moz-linear-gradient(left, #CCF, #88F 15%);
 }
 
-li:hover {
-    background-color: #66F;
-    border-top: 1px solid #66F;
+li:active {
+    background-image: -moz-linear-gradient(left, #FFF, #88F 15%);
 }
 
 div.plot {
