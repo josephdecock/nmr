@@ -9,6 +9,28 @@
 </head>
 
 <body>
+  <noscript>
+    <p class="noscript">Javscript is absolutely required for WebNMR to work.<br />
+      We promise it's not just adding bells and whistles!</p>
+  </noscript>
+  <div class="input_container">
+    <div class="upload">
+      <div class="input">
+        <h1>Manually Select Files</h1>
+        <p>Please select ALL of the files in your data folder<br />
+          (fid, procpar AND text)</p>
+        <input type="file" name="files" multiple="multiple" />
+        <p class="hint">Hint: You can select more than one file at a time by holding 'Shift'</p>
+      </div>
+      <p id="or">OR</p>
+      <div class="input">
+        <h1>Drag and Drop</h1>
+        <p>Drag and drop all of the files<br />
+          (or the folder that contains them)<br />
+          directly into this box!</p>
+      </div>
+    </div>
+  </div>
   <div class="menu">
     <div class="button" onclick="showMenu(event, this)">
       File
@@ -83,7 +105,6 @@
     </div>
   </div>
   <div class="plot">
-    <img src="spectra.png" width="600" title="Screenshot from iNMR" />
   </div>
 </body>
 </html>
