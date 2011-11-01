@@ -52,8 +52,11 @@ p#or {
     font-weight: bold;
 }
 
-div.menu {
+div.processor {
     display: none;
+}
+
+div.menu {
     height: 1.7em;
     background-image: -moz-linear-gradient(top, #AAF, #33F);
     background-image: -webkit-linear-gradient(top, #AAF, #33F);
@@ -120,8 +123,7 @@ li:active {
     background-image: -o-linear-gradient(left, #FFF, #88F 15%);
 }
 
-div.plot {
-    display: none;
+div#plot {
     clear: both;
     background-color: white;
 }

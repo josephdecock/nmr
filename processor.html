@@ -6,7 +6,6 @@
   <link rel="stylesheet" type="text/css" href="processor.css" />
   <script src="js/jquery-1.6.4.js"></script>
   <script src="js/input.js"></script>
-  <script src="js/menu.js"></script>
 </head>
 
 <body>
@@ -20,7 +19,7 @@
         <h1>Manually Select Files</h1>
         <p>Please select ALL of the files in your data folder<br />
           (fid and procpar)</p>
-        <input type="file" name="files" multiple="multiple" />
+        <input type="file" name="files" multiple="multiple" onchange="handleFiles(this.files)" />
         <p class="hint">Hint: You can select more than one file at a time by holding 'Shift'</p>
       </div>
       <p id="or">OR</p>
@@ -32,80 +31,82 @@
       </div>
     </div>
   </div>
-  <div class="menu">
-    <div class="button" onclick="showMenu(event, this)">
-      File
-      <div class="list">
-        <ul>
-          <li>Open</li>
-          <li>Save</li>
-          <li>Print</li>
-        </ul>
+  <div class="processor">
+    <div class="menu">
+      <div class="button" onclick="showMenu(event, this)">
+        File
+        <div class="list">
+          <ul>
+            <li>Open</li>
+            <li>Save</li>
+            <li>Print</li>
+          </ul>
+        </div>
+      </div>
+      <div class="button" onclick="showMenu(event, this)">
+        Display
+        <div class="list">
+          <ul>
+            <li>Zoom In</li>
+            <li>Zoom Out</li>
+            <li>Full Spectrum</li>
+            <li>Specific Dimensions</li>
+          </ul>
+        </div>
+      </div>
+      <div class="button" onclick="showMenu(event, this)">
+        Processing
+        <div class="list">
+          <ul>
+            <li>Automatic Phase</li>
+            <li>Manual Phase</li>
+            <li>Baseline Correction</li>
+            <li>Fourier-Transform</li>
+          </ul>
+        </div>
+      </div>
+      <div class="button" onclick="showMenu(event, this)">
+        Integration
+        <div class="list">
+          <ul>
+            <li>Automatic</li>
+            <li>Manual</li>
+            <li>Clear All</li>
+            <li>Integral Settings</li>
+          </ul>
+        </div>
+      </div>
+      <div class="button" onclick="showMenu(event, this)">
+        Peak Picking
+        <div class="list">
+          <ul>
+            <li>Automatic</li>
+            <li>Manual</li>
+            <li>Clear All</li>
+            <li>Peak Settings</li>
+          </ul>
+        </div>
+      </div>
+      <div class="button" onclick="showMenu(event, this)">
+        Options
+        <div class="list">
+          <ul>
+            <li>Open Options</li>
+          </ul>
+        </div>
+      </div>
+      <div class="button" onclick="showMenu(event, this)">
+        Help
+        <div class="list">
+          <ul>
+            <li>User Guide</li>
+            <li>About WebNMR</li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="button" onclick="showMenu(event, this)">
-      Display
-      <div class="list">
-        <ul>
-          <li>Zoom In</li>
-          <li>Zoom Out</li>
-          <li>Full Spectrum</li>
-          <li>Specific Dimensions</li>
-        </ul>
-      </div>
+    <div id="plot">
     </div>
-    <div class="button" onclick="showMenu(event, this)">
-      Processing
-      <div class="list">
-        <ul>
-          <li>Automatic Phase</li>
-          <li>Manual Phase</li>
-          <li>Baseline Correction</li>
-          <li>Fourier-Transform</li>
-        </ul>
-      </div>
-    </div>
-    <div class="button" onclick="showMenu(event, this)">
-      Integration
-      <div class="list">
-        <ul>
-          <li>Automatic</li>
-          <li>Manual</li>
-          <li>Clear All</li>
-          <li>Integral Settings</li>
-        </ul>
-      </div>
-    </div>
-    <div class="button" onclick="showMenu(event, this)">
-      Peak Picking
-      <div class="list">
-        <ul>
-          <li>Automatic</li>
-          <li>Manual</li>
-          <li>Clear All</li>
-          <li>Peak Settings</li>
-      </ul>
-      </div>
-    </div>
-    <div class="button" onclick="showMenu(event, this)">
-      Options
-      <div class="list">
-        <ul>
-          <li>Open Options</li>
-        </ul>
-      </div>
-    </div>
-    <div class="button" onclick="showMenu(event, this)">
-      Help
-      <div class="list">
-        <ul>
-          <li>User Guide</li>
-          <li>About WebNMR</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="plot">
   </div>
 </body>
 </html>
