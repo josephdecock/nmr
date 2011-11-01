@@ -19,11 +19,11 @@
         <h1>Manually Select Files</h1>
         <p>Please select ALL of the files in your data folder<br />
           (fid and procpar)</p>
-        <input type="file" name="files" multiple="multiple" onchange="handleFiles(this.files)" />
+        <input type="file" name="files" multiple="multiple" onchange="handleFiles(event)" />
         <p class="hint">Hint: You can select more than one file at a time by holding 'Shift'</p>
       </div>
       <p id="or">OR</p>
-      <div class="input">
+      <div class="input" id="drop" ondrop="handleFiles(event)">
         <h1>Drag and Drop</h1>
         <p>Drag and drop all of the files<br />
           (or the folder that contains them)<br />
