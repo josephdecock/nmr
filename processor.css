@@ -18,7 +18,8 @@ p.noscript {
     text-align: center;
 }
 
-div.input_container {
+div#input_container {
+    display: none;
     width: 960px;
 }
 
