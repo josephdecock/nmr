@@ -21,48 +21,29 @@ function handleFiles(event) {
     else if (event.dataTransfer.files) {
         var file = event.dataTransfer.files[0];
     }
-    // Test names with file.name
+    // In real us we should test names with file.name
+    // At this point we're assuming Varian 1-D data (our test file)
     var reader = new FileReader();
     reader.onload = (function() {
-        var fid = Int32Array(reader.result);
-        for (var i = 0; i < fid.length; i++) {
-            $('#plot').append(fid[i] + '<br />');
+        // These would normally be determined by reading the header
+        var littleEndian = false;
+//        var type = 'Int32'; // Options are Int16, Int32, Float32
+        var point;
+        var plot = new Array();
+        var j = 0;
+        for (var i = 17; i < reader.result.byteLength; i += 16) {
+            // Separate data from header (start at byte 17)
+            // Use the real data, not the imaginary
+            // This is every other data point (i + 16)
+            point = new DataView(reader.result).getInt32(i, littleEndian);
+            plot[j] = point;
+            j++;
+            $('#plot').append(point + '<br />'); // For testing
         }
         $('#input_container').hide();
         showProcessor();
     });
-    // Slice size needs to be a multiple of 4 (32 bytes)
-    // This prevents error at Int32Array()
-    if (file.slice) { // Supposed standard, not implemented yet
-        var blob = file.slice(33, 113);
-    }
-    else if (file.mozSlice) {
-        var blob = file.mozSlice(33, 113);
-    }
-    else if (file.webkitSlice) {
-        var blob = file.webkitSlice(33, 113);
-    }
-    // We might have to experiment with slice sizes.
-    // Printing the entire data file causing an extreme lag in the browser
-    // prompting a slow script error. I don't know if this will be an issue
-    // for our real use case.
-
-    reader.readAsArrayBuffer(blob);
-    // This raises a security error (error code: 2, SECURITY_ERR) in Chrome.
-    // The documentation for this is pretty vague: (from the W3C draft)
-    //
-    // If: 
-    // - it is determined that certain files are unsafe for access within
-    //     a Web application.
-    // - it is determined that too many read calls are being made on File
-    //     or Blob resources.
-    // - it is determined that the file has changed on disk since the user
-    //     selected it.
-    // then for asynchronous read methods the error attribute MAY return a
-    //   "SecurityError" DOMError and synchronous read methods MAY throw a
-    //   SecurityError exception.
-    // This is a security error code to be used in situations not covered
-    //   by any other exception type.
+    reader.readAsArrayBuffer(file);
 }
 
 function showProcessor() {
