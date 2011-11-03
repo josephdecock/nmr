@@ -25,18 +25,59 @@ function handleFiles(event) {
     // At this point we're assuming Varian 1-D data (our test file)
     var reader = new FileReader();
     reader.onload = (function() {
-        // These would normally be determined by reading the header
-        var littleEndian = false;
-//        var type = 'Int32'; // Options are Int16, Int32, Float32
+        var data = new DataView(reader.result);
+        var littleEndian = false; // Varian is always Big Endian
+        // Get header info
+        $('#plot').append('HEADER:<br />');
+        // I'm sure we don't actually need all of these
+        var nblocks = data.getInt32(0, littleEndian);
+        $('#plot').append('nblocks:' + nblocks + '<br />');
+        var ntraces = data.getInt32(4, littleEndian);
+        $('#plot').append('ntraces:' + ntraces + '<br />');
+        var np = data.getInt32(8, littleEndian); // # of data points
+        $('#plot').append('np:' + np + '<br />');
+        var ebytes = data.getInt32(12, littleEndian); // 16/32-bit
+        $('#plot').append('ebytes:' + ebytes + '<br />');
+        var tbytes = data.getInt32(16, littleEndian); // total data bytes
+        $('#plot').append('tbytes:' + tbytes + '<br />');
+        var bbytes = data.getInt32(20, littleEndian); // bytes per block
+        $('#plot').append('bbytes:' + bbytes + '<br />');
+        var version = data.getInt16(24, littleEndian);
+        $('#plot').append('version:' + version + '<br />');
+        var status = data.getInt16(26, littleEndian);
+        var nbheaders = data.getInt16(28, littleEndian);
+        // Status bits:
+        $('#plot').append('nbheaders:' + nbheaders + '<br />');
+        var dataExists = status & 0x1;
+        $('#plot').append('dataExists:' + dataExists + '<br />');
+        var dataType = (status & 0x2) ? 'spectrum': 'FID';
+        $('#plot').append('dataType:' + dataType + '<br />');
+        var numType = (status & 0x8) ?
+            'Float32' :
+            (status & 0x4) ?
+            'Int32' : 'Int16';
+        $('#plot').append('numType:' + numType + '<br />');
+        var complex = status & 0x10;
+        $('#plot').append('complex:' + complex + '<br />');
+        var hypercomplex = status & 0x20;
+        $('#plot').append('hypercomplex:' + hypercomplex + '<br />');
+        // I don't know what the rest of the status bits are for
+        // and I don't really care at this point.
+
+        // The next 28(?) bytes are the block header, which basically
+        // just repeats the file status.
+        // We might need the correction values though...
+
         var point;
-        var plot = new Array();
-        for (var i = 17; i < reader.result.byteLength; i += 16) {
-            // Separate data from header (start at byte 17)
+        var fidData = new Array();
+        $('#plot').append('<br />DATA:<br />');
+        // Actual data starts after 60 bytes
+        for (var i = 60; i < reader.result.byteLength; i += 16) {
             // Use the real data, not the imaginary
-            // This is every other data point (i + 16)
+            // This is every other data point (i + 8)
             point = new DataView(reader.result).getInt32(i, littleEndian);
-            plot.push(point);
-            $('#plot').append(point + '<br />'); // For testing
+            fidData.push(point);
+            $('#plot').append(point + '<br />');
         }
         $('#input_container').hide();
         showProcessor();
