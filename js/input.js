@@ -30,14 +30,12 @@ function handleFiles(event) {
 //        var type = 'Int32'; // Options are Int16, Int32, Float32
         var point;
         var plot = new Array();
-        var j = 0;
         for (var i = 17; i < reader.result.byteLength; i += 16) {
             // Separate data from header (start at byte 17)
             // Use the real data, not the imaginary
             // This is every other data point (i + 16)
             point = new DataView(reader.result).getInt32(i, littleEndian);
-            plot[j] = point;
-            j++;
+            plot.push(point);
             $('#plot').append(point + '<br />'); // For testing
         }
         $('#input_container').hide();
