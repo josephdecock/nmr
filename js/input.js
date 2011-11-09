@@ -1,16 +1,28 @@
 'use strict';
 
 $(document).ready(function() {
+    function cancelEvent(event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    function setDrag() {
+        dropBox.addClass('dragover');
+    }
+    function unsetDrag() {
+        dropBox.removeClass('dragover');
+    }   
     $('#input_container').show();
-    var dropBox = document.querySelector('#drop');
-    dropBox.addEventListener('dragover', cancelEvent, false);
-    dropBox.addEventListener('drop', cancelEvent, false);
+    var dropBox = $('#drop');
+    // Prevent default action for drag and drop across entire document
+    $(document).bind('dragenter', function() {cancelEvent(event)});
+    $(document).bind('dragover', function () {cancelEvent(event)});
+    $(document).bind('drop', function() {cancelEvent(event)});
+    // Set styles for drag and drop input
+    dropBox.bind('dragenter', function() {setDrag()});
+    dropBox.bind('dragover', function () {setDrag()});
+    dropBox.bind('dragleave', function() {unsetDrag()});
+    dropBox.bind('drop', function() {unsetDrag()});
 });
-
-function cancelEvent(event) {
-    event.preventDefault();
-    event.stopPropagation();
-}
 
 function handleFiles(event) {
     // For real data we will need to process fileList
@@ -68,16 +80,13 @@ function handleFiles(event) {
         // just repeats the file status.
         // We might need the correction values though...
 
-        var point;
         var fidData = new Array();
-        $('#plot').append('<br />DATA:<br />');
         // Actual data starts after 60 bytes
-        for (var i = 60; i < reader.result.byteLength; i += 16) {
+        for (var i = 60; i < reader.result.byteLength; i += 8) {
             // Use the real data, not the imaginary
             // This is every other data point (i + 8)
-            point = new DataView(reader.result).getInt32(i, littleEndian);
+            var point = new DataView(reader.result).getInt32(i, littleEndian);
             fidData.push(point);
-            $('#plot').append(point + '<br />');
         }
         $('#input_container').hide();
         showProcessor();

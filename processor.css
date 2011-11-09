@@ -22,13 +22,26 @@ div#input_container {
     display: none;
     width: 960px;
     margin: 0 auto;
+    color: #111;
+    text-align: center;
+}
+
+h1 {
+    width: 20em;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0;
+    background-color: #BBC;
+    border-radius: 10px;
+    box-shadow: 0 0 7px black;
 }
 
 div.input {
     float: left;
-    height: 250px;
+    height: 15em;
     width: 350px;
     margin: 30px;
+    margin-top: 0;
     padding: 25px;
     background-color: #99C;
     background-image: -moz-linear-gradient(bottom left, #77A, #BBD);
@@ -36,20 +49,48 @@ div.input {
     background-image: -ie-linear-gradient(bottom left, #77A, #BBD);
     background-image: -o-linear-gradient(bottom left, #77A, #BBD);
     border-radius: 20px;
-    box-shadow: 0 0 10px black;
-    text-align: center;
-    font-size: 16px;
+    box-shadow: 0 0 7px black;
+}
+
+div.dragover {
+    box-shadow: 0 0 10px white;
 }
 
 p.hint {
-    font-size: 12px;
+    font-size: 0.9em;
 }
 
 p#or {
     float: left;
-    margin: 160px 0;
+    margin: 125px 0;
     font-size: 24px;
     font-weight: bold;
+}
+
+div#file_types {
+    clear: both;
+    width: 30em;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: #99C;
+    background-image: -moz-linear-gradient(bottom left, #77A, #BBD);
+    background-image: -webkit-linear-gradient(bottom left, #77A, #BBD);
+    background-image: -ie-linear-gradient(bottom left, #77A, #BBD);
+    background-image: -o-linear-gradient(bottom left, #77A, #BBD);
+    border-radius: 20px;
+    box-shadow: 0 0 7px black;
+}
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th, td {
+    min-width: 8em;
+    border: 1px solid black;
+    padding: 0.5em;
 }
 
 div.processor {
