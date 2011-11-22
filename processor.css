@@ -1,103 +1,93 @@
 body {
     margin: 0;
-    background-color: #CCC;
-    background-image: -moz-linear-gradient(top, #888, #CCC);
-    background-image: -webkit-linear-gradient(top, #888, #CCC);
-    background-image: -ie-linear-gradient(top, #888, #CCC);
-    background-image: -o-linear-gradient(top, #888, #CCC);
-    background-repeat: repeat-x;
     font-family: Arial, Helvetica;
 }
 
-p.noscript {
+.noscript {
     margin: 30px;
     padding: 10px;
-    background-image: none;
-    background-color: white;
-    border-radius: 20px;
     text-align: center;
 }
 
-div#input_container {
+#input_container {
     display: none;
-    width: 960px;
-    margin: 0 auto;
-    color: #111;
-    text-align: center;
-}
-
-h1 {
-    width: 20em;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 10px 0;
-    background-color: #BBC;
-    border-radius: 10px;
-    box-shadow: 0 0 7px black;
-}
-
-div.input {
-    float: left;
-    height: 15em;
-    width: 350px;
-    margin: 30px;
-    margin-top: 0;
-    padding: 25px;
-    background-color: #99C;
-    background-image: -moz-linear-gradient(bottom left, #77A, #BBD);
-    background-image: -webkit-linear-gradient(bottom left, #77A, #BBD);
-    background-image: -ie-linear-gradient(bottom left, #77A, #BBD);
-    background-image: -o-linear-gradient(bottom left, #77A, #BBD);
-    border-radius: 20px;
-    box-shadow: 0 0 7px black;
-}
-
-div.dragover {
-    box-shadow: 0 0 10px white;
-}
-
-p.hint {
-    font-size: 0.9em;
-}
-
-p#or {
-    float: left;
-    margin: 125px 0;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-div#file_types {
-    clear: both;
-    width: 30em;
-    margin: 0 auto;
+    height: 100%;
+    margin: 5px;
     padding: 10px;
-    background-color: #99C;
-    background-image: -moz-linear-gradient(bottom left, #77A, #BBD);
-    background-image: -webkit-linear-gradient(bottom left, #77A, #BBD);
-    background-image: -ie-linear-gradient(bottom left, #77A, #BBD);
-    background-image: -o-linear-gradient(bottom left, #77A, #BBD);
-    border-radius: 20px;
-    box-shadow: 0 0 7px black;
-}
-
-table {
-    margin: 0 auto;
-    border-collapse: collapse;
+    background-color: #DDF;
+    border: 1px solid blue;
+    color: #111;
     text-align: left;
 }
 
-th, td {
-    min-width: 8em;
-    border: 1px solid black;
-    padding: 0.5em;
+h1 {
+    font-size: 1.5em;
+    margin: 0.5em;
+    margin-bottom: 1em;
 }
 
-div.processor {
+.dragover {
+    box-shadow: inset 0 0 10px blue;
+}
+
+ul {
+    list-style: none;
+}
+
+#input_wrapper {
+    display: inline-block;
+    position: relative;
+    margin: 0 2.5em;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 2px black;
+    overflow: hidden;
+}
+
+#input_wrapper:active {
+    box-shadow: inset 0 0 1px 1px black;
+}
+
+#input_wrapper input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    font-size: 100em;
+    cursor: pointer;
+}
+
+#input_button {
+    display: inline-block;
+    padding: 4px 18px;
+    font-weight: bold;
+}
+
+.hint {
+    font-size: 0.9em;
+}
+
+#files_required p {
+    float: left;
+    margin-left: 3em;
+    font-weight: bold;
+}
+
+#files_required ul {
+    float: left;
+    margin-bottom: 2em;
+    padding-left: 1em;
+}
+
+.clear {
+    clear: both;
+}
+
+.processor {
     display: none;
 }
 
-div.menu {
+.menu {
     height: 1.7em;
     background-image: -moz-linear-gradient(top, #AAF, #33F);
     background-image: -webkit-linear-gradient(top, #AAF, #33F);
@@ -106,7 +96,7 @@ div.menu {
     line-height: 1.5em;
 }
 
-div.button {
+.button {
     position: relative;
     float: left;
     height: inherit;
@@ -116,7 +106,7 @@ div.button {
     font-weight: bold;
 }
 
-div.button:hover {
+.button:hover {
     background-image: -moz-linear-gradient(top, #CCF, #55F);
     background-image: -webkit-linear-gradient(top, #CCF, #55F);
     background-image: -ie-linear-gradient(top, #CCF, #55F);
@@ -124,7 +114,7 @@ div.button:hover {
     cursor: default;
 }
 
-div.list {
+.list {
     display: none;
     position: absolute;
     bottom: 0;
@@ -133,16 +123,15 @@ div.list {
     cursor: pointer;
 }
 
-ul {
+.list ul {
     position: absolute;
     margin: 0;
     padding: 0;
     box-shadow: 0 1px 5px #888;
-    list-style-type: none;
-    line-height: normal;
+     line-height: normal;
 }
 
-li {
+.list li {
     height: 1.2em;
     padding: 0.45em 1.5em;
     background-color: #88F;
@@ -150,21 +139,21 @@ li {
     border-bottom: 1px solid #66F;
 }
 
-li:hover {
+.list li:hover {
     background-image: -moz-linear-gradient(left, #CCF, #88F 15%);
     background-image: -webkit-linear-gradient(left, #CCF, #88F 15%);
     background-image: -ie-linear-gradient(left, #CCF, #88F 15%);
     background-image: -o-linear-gradient(left, #CCF, #88F 15%);
 }
 
-li:active {
+.list li:active {
     background-image: -moz-linear-gradient(left, #FFF, #88F 15%);
     background-image: -webkit-linear-gradient(left, #FFF, #88F 15%);
     background-image: -ie-linear-gradient(left, #FFF, #88F 15%);
     background-image: -o-linear-gradient(left, #FFF, #88F 15%);
 }
 
-div#plot {
+#plot {
     clear: both;
     background-color: white;
 }

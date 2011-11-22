@@ -15,41 +15,35 @@
     <p class="noscript">Javscript is absolutely required for WebNMR to work.<br />
       We promise it's not just adding bells and whistles!</p>
   </noscript>
-  <div id="input_container">
+  <div class="drop" id="input_container" ondrop="handleFiles(event)">
     <h1>WebNMR: Load Data Files</h1>
-    <div class="input">
-      <h2>Manually Select Files</h2>
-      <p>Please select ALL of the files* in your data folder</p>
+    <p>Please select ALL of the files* in your data folder</p>
+    <hr />
+    <p id="filelist">Files selected:</p>
+    <ul>
+      <li>No files loaded</li>
+    </ul>
+    <span id="input_wrapper">
       <input type="file" name="files" multiple="multiple" onchange="handleFiles(event)" />
-      <p class="hint">Hint: You can select more than one file at a time by holding 'Shift'</p>
+      <span id="input_button">Select Files</span>
+    </span>
+    <p class="hint">Hint: you can also drag and drop them directly into this box!</p>
+    <hr />
+    <p>Files required by WebNMR:</p>
+    <div id="files_required">
+      <p class="left">Agilent/Varian:</p>
+      <ul class="left">
+        <li>fid</li>
+        <li>procpar</li>
+        <li>text (optional)</li>
+      </ul>
+      <p class="left">Bruker:</p>
+      <ul class="left">
+        <li>fid</li>
+        <li>acqus</li>
+      </ul>
     </div>
-    <p id="or">OR</p>
-    <div class="input" id="drop" ondrop="handleFiles(event)">
-      <h2>Drag and Drop</h2>
-      <p>Drag and drop ALL of the files* in your data folder directly into this box!</p>
-      <p class="hint">Hint: You can select more than one file at a time by holding 'Shift'</p>
-    </div>
-    <div id="file_types">
-      <p>Data files required by WebNMR:</p>
-      <table>
-        <tr>
-          <th>Vendor</th>
-          <th>Required Files</th>
-          <th>Optional Files</th>
-        </tr>
-        <tr>
-          <td>Agilent/Varian</td>
-          <td>fid, procpar</td>
-          <td>text</td>
-        </tr>
-        <tr>
-          <td>Bruker</td>
-          <td>fid, acqus</td>
-          <td></td>
-        </tr>
-      </table>
-      <p>Other vendors are currently not supported</p>
-    </div>
+    <p class="clear">Other vendors are currently not supported</p>
   </div>
   <div class="processor">
     <div class="menu">

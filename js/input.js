@@ -5,14 +5,17 @@ $(document).ready(function() {
         event.preventDefault();
         event.stopPropagation();
     }
+    var dragTimeout;
+    var dropBox = $('.drop');
     function setDrag() {
         dropBox.addClass('dragover');
+        clearTimeout(dragTimeout);
+        dragTimeout = setTimeout("$('.drop').removeClass('dragover')", 1000);
     }
     function unsetDrag() {
         dropBox.removeClass('dragover');
     }   
     $('#input_container').show();
-    var dropBox = $('#drop');
     // Prevent default action for drag and drop across entire document
     $(document).bind('dragenter', function() {cancelEvent(event)});
     $(document).bind('dragover', function () {cancelEvent(event)});
@@ -42,6 +45,9 @@ function handleFiles(event) {
         // Switch to processor view
         $('#input_container').hide();
         showProcessor(); // in processor.js
+    });
+    reader.onerror = (function() {
+        alert('You need to access this using Chrome either through a webserver or with the --allow-file-access-from-files flag.');
     });
     reader.readAsArrayBuffer(file);
 }
