@@ -1,5 +1,8 @@
 'use strict';
 
+var vendor;
+var data;
+
 $(document).ready(function() {
     function cancelEvent(event) {
         event.preventDefault();
@@ -7,6 +10,7 @@ $(document).ready(function() {
     }
     var dragTimeout;
     var dropBox = $('.drop');
+    data = new Data();
     function setDrag() {
         dropBox.addClass('dragover');
         clearTimeout(dragTimeout);
@@ -17,9 +21,9 @@ $(document).ready(function() {
     }   
     $('#input_container').show();
     // Prevent default action for drag and drop across entire document
-    $(document).bind('dragenter', function() {cancelEvent(event)});
-    $(document).bind('dragover', function () {cancelEvent(event)});
-    $(document).bind('drop', function() {cancelEvent(event)});
+    $(document).bind('dragenter', function(event) {cancelEvent(event)});
+    $(document).bind('dragover', function (event) {cancelEvent(event)});
+    $(document).bind('drop', function(event) {cancelEvent(event)});
     // Set styles for drag and drop input
     dropBox.bind('dragenter', function() {setDrag()});
     dropBox.bind('dragover', function () {setDrag()});
@@ -28,20 +32,62 @@ $(document).ready(function() {
 });
 
 function handleFiles(event) {
-    // For real data we will need to process fileList
-    // For testing right now, we know it is one file (fid)
     if (event.target.files) {
-        var file = event.target.files[0];
+        var fileList = event.target.files;
     }
     else if (event.dataTransfer.files) {
-        var file = event.dataTransfer.files[0];
+        var fileList = event.dataTransfer.files;
     }
-    // In real use we should test names with file.name
+    for (var i = 0; i < fileList.length; i++) {
+        switch (fileList[i].name) {
+        case 'fid':
+            $('#vfid').show();
+            $('#bfid').show();
+            data.fid = fileList[i];
+            break;
+        case 'procpar':
+            if (vendor === 'bruker') {
+                alert('Vendor mismatch');
+                break;
+            }
+            $('#procpar').show();
+            data.paramFile = fileList[i];
+            vendor = 'varian';
+            break;
+        case 'text':
+            if (vendor === 'bruker') {
+                alert('Vendor mismatch');
+                break;
+            }
+            $('#text').show();
+            data.text = fileList[i];
+            vendor = 'varian';
+            break;
+        case 'acqus':
+            if (vendor === 'varian') {
+                alert('Vendor mismatch');
+                break;
+            }
+            $('#acqus').show();
+            data.paramFile = fileList[i];
+            vendor = 'bruker';
+            break;
+        default:
+            alert('Unrecognized file type: ' + fileList[i].name);
+        }
+    }
+    if (data.fid && data.paramFile) {
+        // This only works with Varian right now
+        readFID(data.fid);
+    }
+}
+
+function readFID(file) {
     // At this point we're assuming Varian 1-D data (our test file)
     var reader = new FileReader();
     reader.onload = (function() {
-        var rawData = new DataView(reader.result);
-        var data = parseFID(rawData);
+        data.rawData = new DataView(reader.result);
+        parseFID();
         // Switch to processor view
         $('#input_container').hide();
         showProcessor(); // in processor.js
@@ -52,33 +98,31 @@ function handleFiles(event) {
     reader.readAsArrayBuffer(file);
 }
 
-function parseFID (rawData) {
-    // Returns a data object (from data.js)
-    var data = new Data(rawData);
+function parseFID() {
     // Varian is always Big Endian
     // Bruker Endianness probably can be determined from acqus
     data.littleEndian = false; // Assume Varian for now
 
     // Get header info
     // I'm sure we don't actually need all of these
-    data.nblocks = rawData.getInt32(0, data.littleEndian);
+    data.nblocks = data.rawData.getInt32(0, data.littleEndian);
     $('#plot').append('nblocks:' + data.nblocks + '<br />');
-    data.ntraces = rawData.getInt32(4, data.littleEndian);
+    data.ntraces = data.rawData.getInt32(4, data.littleEndian);
     $('#plot').append('ntraces:' + data.ntraces + '<br />');
-    data.np = rawData.getInt32(8, data.littleEndian); // # of data points
+    data.np = data.rawData.getInt32(8, data.littleEndian); // # of data points
     $('#plot').append('np:' + data.np + '<br />');
-    data.ebytes = rawData.getInt32(12, data.littleEndian); // 16/32-bit
+    data.ebytes = data.rawData.getInt32(12, data.littleEndian); // 16/32-bit
     $('#plot').append('ebytes:' + data.ebytes + '<br />');
-    data.tbytes = rawData.getInt32(16, data.littleEndian); // total data bytes
+    data.tbytes = data.rawData.getInt32(16, data.littleEndian); // total data bytes
     $('#plot').append('tbytes:' + data.tbytes + '<br />');
-    data.bbytes = rawData.getInt32(20, data.littleEndian); // bytes per block
+    data.bbytes = data.rawData.getInt32(20, data.littleEndian); // bytes per block
     $('#plot').append('bbytes:' + data.bbytes + '<br />');
-    data.version = rawData.getInt16(24, data.littleEndian);
+    data.version = data.rawData.getInt16(24, data.littleEndian);
     $('#plot').append('version:' + data.version + '<br />');
-    data.status = rawData.getInt16(26, data.littleEndian);
-    data.nbheaders = rawData.getInt16(28, data.littleEndian);
-    // Status bits:
+    data.status = data.rawData.getInt16(26, data.littleEndian);
+    data.nbheaders = data.rawData.getInt16(28, data.littleEndian);
     $('#plot').append('nbheaders:' + data.nbheaders + '<br />');
+    // Status bits:
     data.dataExists = data.status & 0x1;
     $('#plot').append('dataExists:' + data.dataExists + '<br />');
     data.dataType = (data.status & 0x2) ? 'spectrum': 'FID';
@@ -101,17 +145,17 @@ function parseFID (rawData) {
 
     data.realData = new Array();
     // Actual data starts after 60 bytes
-    for (var i = 60; i < rawData.byteLength; i += 8) {
+    for (var i = 60; i < data.rawData.byteLength; i += 8) {
         // Separate real component from imaginary component
         // This is every other data point (i + 8)
-        var point = rawData.getInt32(i, data.littleEndian);
+        var point = data.rawData.getInt32(i, data.littleEndian);
         data.realData.push(point);
     }
     data.imaginaryData = new Array();
     // First imaginary data point is at 64 bytes
-    for (i = 64; i < rawData.byteLength; i += 8) {
+    for (i = 64; i < data.rawData.byteLength; i += 8) {
         // Get imaginary component
-        point = rawData.getInt32(i, data.littleEndian);
+        point = data.rawData.getInt32(i, data.littleEndian);
         data.imaginaryData.push(point);
     } 
 }

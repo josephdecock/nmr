@@ -1,5 +1,4 @@
-function Data(rawData) {
-    this.rawData = rawData;
+function Data() {
 }
 
 Data.prototype.ft = function() {
