@@ -4,10 +4,6 @@ var vendor;
 var data;
 
 $(document).ready(function() {
-    function cancelEvent(event) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
     var dragTimeout;
     var dropBox = $('.drop');
     data = new Data();
@@ -21,10 +17,7 @@ $(document).ready(function() {
     }   
     $('#input_container').show();
     // Prevent default action for drag and drop across entire document
-    $(document).bind('dragenter', function(event) {cancelEvent(event)});
-    $(document).bind('dragover', function (event) {cancelEvent(event)});
-    $(document).bind('drop', function(event) {cancelEvent(event)});
-//    $(document).bind('dragenter dragover drop', false);
+    $(document).bind('dragenter dragover drop', false);
     // Set styles for drag and drop input
     dropBox.bind('dragenter', function() {setDrag()});
     dropBox.bind('dragover', function () {setDrag()});
@@ -84,7 +77,6 @@ function handleFiles(event) {
     if (data.files.fid && (data.files.procpar || data.files.acqus)) {
         $('#submit').attr('disabled', false);
         $('#submit').bind('click', function() {readFID(data.files.fid);});
-//        readFID(data.files.fid);
     }
 }
 
