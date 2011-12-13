@@ -11,6 +11,7 @@ function showProcessor() {
         $('.button').unbind('mouseenter');
         $('.button').unbind('mouseleave');
     });
+    plotFID();
 }
 
 function showMenu(event, button) {
@@ -20,4 +21,26 @@ function showMenu(event, button) {
         $('.list').hide();
         $(this).find('.list').show();
     }, null);
+}
+
+function plotFID() {
+    var svg = document.getElementById('svg');
+    var points = '';
+    for (var i = 1; i <= data.realData.length; i++) {
+        points += i + ',' + data.realData[i - 1] + ' ';
+    }
+    var plot = document.createElementNS('http://www.w3.org/2000/svg',
+                                        'polyline');
+    plot.setAttributeNS(null, 'points', points);
+    plot.setAttributeNS(null, 'fill', 'none');
+    plot.setAttributeNS(null, 'stroke', 'blue');
+    plot.setAttributeNS(null, 'stroke-width', '5');
+    var maxPoint =  Math.max.apply(Math, data.realData);
+    var translateY = svg.offsetHeight / 2;
+    var scaleX = svg.offsetWidth / data.realData.length;
+    var scaleY = svg.offsetHeight / (2 * maxPoint);
+    plot.setAttributeNS(null, 'transform',
+                        'translate(0 ' + translateY + ') ' +
+                        'scale(' + scaleX + ' ' + scaleY + ')');
+    svg.appendChild(plot);
 }
