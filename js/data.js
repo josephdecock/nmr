@@ -1,4 +1,5 @@
 function Data() {
+    this.files = new Object;
 }
 
 Data.prototype.ft = function() {

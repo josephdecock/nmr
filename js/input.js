@@ -24,6 +24,7 @@ $(document).ready(function() {
     $(document).bind('dragenter', function(event) {cancelEvent(event)});
     $(document).bind('dragover', function (event) {cancelEvent(event)});
     $(document).bind('drop', function(event) {cancelEvent(event)});
+//    $(document).bind('dragenter dragover drop', false);
     // Set styles for drag and drop input
     dropBox.bind('dragenter', function() {setDrag()});
     dropBox.bind('dragover', function () {setDrag()});
@@ -33,25 +34,24 @@ $(document).ready(function() {
 
 function handleFiles(event) {
     if (event.target.files) {
-        var fileList = event.target.files;
+        var inputFiles = event.target.files;
     }
     else if (event.dataTransfer.files) {
-        var fileList = event.dataTransfer.files;
+        var inputFiles = event.dataTransfer.files;
     }
-    for (var i = 0; i < fileList.length; i++) {
-        switch (fileList[i].name) {
+    for (var i = 0; i < inputFiles.length; i++) {
+        switch (inputFiles[i].name) {
         case 'fid':
-            $('#vfid').show();
-            $('#bfid').show();
-            data.fid = fileList[i];
+            $('.fid').show();
+            data.files.fid = inputFiles[i];
             break;
         case 'procpar':
             if (vendor === 'bruker') {
                 alert('Vendor mismatch');
                 break;
             }
-            $('#procpar').show();
-            data.paramFile = fileList[i];
+            $('.procpar').show();
+            data.files.procpar = inputFiles[i];
             vendor = 'varian';
             break;
         case 'text':
@@ -59,8 +59,8 @@ function handleFiles(event) {
                 alert('Vendor mismatch');
                 break;
             }
-            $('#text').show();
-            data.text = fileList[i];
+            $('.text').show();
+            data.files.text = inputFiles[i];
             vendor = 'varian';
             break;
         case 'acqus':
@@ -68,17 +68,23 @@ function handleFiles(event) {
                 alert('Vendor mismatch');
                 break;
             }
-            $('#acqus').show();
-            data.paramFile = fileList[i];
+            $('.acqus').show();
+            data.files.acqus = inputFiles[i];
             vendor = 'bruker';
             break;
         default:
-            alert('Unrecognized file type: ' + fileList[i].name);
+            alert('Unrecognized file type: ' + inputFiles[i].name);
         }
     }
-    if (data.fid && data.paramFile) {
-        // This only works with Varian right now
-        readFID(data.fid);
+    var fileList = '';
+    for (var file in data.files) {
+        fileList += '<li>' + file + '</li>';
+    }
+    $('#file_list').html(fileList);
+    if (data.files.fid && (data.files.procpar || data.files.acqus)) {
+        $('#submit').attr('disabled', false);
+        $('#submit').bind('click', function() {readFID(data.files.fid);});
+//        readFID(data.files.fid);
     }
 }
 

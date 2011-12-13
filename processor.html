@@ -21,14 +21,15 @@
       <p>Please select ALL of the files* in your data folder</p>
     </div>
     <div class="input_section">
-      <p id="filelist">Files selected:</p>
-      <ul>
+      <p>Files selected:</p>
+      <ul id="file_list">
         <li>No files loaded</li>
       </ul>
       <span id="input_wrapper">
         <input type="file" name="files" multiple="multiple" onchange="handleFiles(event)" />
-      <span id="input_button">Select Files</span>
+        <span id="input_button">Select Files</span>
       </span>
+      <button id="submit" disabled="disabled">Load Data</button>
       <p class="hint">Hint: you can also drag and drop them directly into this box!</p>
     </div>
     <div class="input_section">
@@ -36,14 +37,14 @@
       <div id="files_required">
         <p class="left">Agilent/Varian:</p>
         <ul class="left">
-          <li><span class="check" id="vfid">x</span> fid</li>
-          <li><span class="check" id="procpar">x</span> procpar</li>
-          <li><span class="check" id="text">x</span> text (optional)</li>
+          <li><span class="check fid">x</span> fid</li>
+          <li><span class="check procpar">x</span> procpar</li>
+          <li><span class="check text">x</span> text (optional)</li>
         </ul>
         <p class="left">Bruker:</p>
         <ul class="left">
-          <li><span class="check" id="bfid">x</span> fid</li>
-          <li><span class="check" id="acqus">x</span> acqus</li>
+          <li><span class="check fid">x</span> fid</li>
+          <li><span class="check acqus">x</span> acqus</li>
         </ul>
       </div>
       <p class="clear">Other vendors are currently not supported</p>
