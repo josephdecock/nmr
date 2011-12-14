@@ -104,36 +104,36 @@ function parseFID() {
     // Get header info
     // I'm sure we don't actually need all of these
     data.nblocks = data.rawData.getInt32(0, data.littleEndian);
-    $('#plot').append('nblocks:' + data.nblocks + '<br />');
+    console.log('nblocks:' + data.nblocks);
     data.ntraces = data.rawData.getInt32(4, data.littleEndian);
-    $('#plot').append('ntraces:' + data.ntraces + '<br />');
+    console.log('ntraces:' + data.ntraces);
     data.np = data.rawData.getInt32(8, data.littleEndian); // # of data points
-    $('#plot').append('np:' + data.np + '<br />');
+    console.log('np:' + data.np);
     data.ebytes = data.rawData.getInt32(12, data.littleEndian); // 16/32-bit
-    $('#plot').append('ebytes:' + data.ebytes + '<br />');
+    console.log('ebytes:' + data.ebytes);
     data.tbytes = data.rawData.getInt32(16, data.littleEndian); // total data bytes
-    $('#plot').append('tbytes:' + data.tbytes + '<br />');
+    console.log('tbytes:' + data.tbytes);
     data.bbytes = data.rawData.getInt32(20, data.littleEndian); // bytes per block
-    $('#plot').append('bbytes:' + data.bbytes + '<br />');
+    console.log('bbytes:' + data.bbytes);
     data.version = data.rawData.getInt16(24, data.littleEndian);
-    $('#plot').append('version:' + data.version + '<br />');
+    console.log('version:' + data.version);
     data.status = data.rawData.getInt16(26, data.littleEndian);
     data.nbheaders = data.rawData.getInt16(28, data.littleEndian);
-    $('#plot').append('nbheaders:' + data.nbheaders + '<br />');
+    console.log('nbheaders:' + data.nbheaders);
     // Status bits:
     data.dataExists = data.status & 0x1;
-    $('#plot').append('dataExists:' + data.dataExists + '<br />');
+    console.log('dataExists:' + data.dataExists);
     data.dataType = (data.status & 0x2) ? 'spectrum': 'FID';
-    $('#plot').append('dataType:' + data.dataType + '<br />');
+    console.log('dataType:' + data.dataType);
     data.numType = (data.status & 0x8) ?
         'Float32' :
         (data.status & 0x4) ?
         'Int32' : 'Int16';
-    $('#plot').append('numType:' + data.numType + '<br />');
+    console.log('numType:' + data.numType);
     data.complex = data.status & 0x10;
-    $('#plot').append('complex:' + data.complex + '<br />');
+    console.log('complex:' + data.complex);
     data.hypercomplex = data.status & 0x20;
-    $('#plot').append('hypercomplex:' + data.hypercomplex + '<br />');
+    console.log('hypercomplex:' + data.hypercomplex);
     // I don't know what the rest of the status bits are for
     // and I don't really care at this point.
     
