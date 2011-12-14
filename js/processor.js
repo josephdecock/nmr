@@ -24,7 +24,7 @@ function showMenu(event, button) {
 }
 
 function plotFID() {
-    var svg = document.getElementById('svg');
+    var svg = $('#svg');
     var points = '';
     for (var i = 1; i <= data.realData.length; i++) {
         points += i + ',' + data.realData[i - 1] + ' ';
@@ -36,11 +36,11 @@ function plotFID() {
     plot.setAttributeNS(null, 'stroke', 'blue');
     plot.setAttributeNS(null, 'stroke-width', '5');
     var maxPoint =  Math.max.apply(Math, data.realData);
-    var translateY = svg.offsetHeight / 2;
-    var scaleX = svg.offsetWidth / data.realData.length;
-    var scaleY = svg.offsetHeight / (2 * maxPoint);
+    var translateY = svg.innerHeight() / 2;
+    var scaleX = svg.innerWidth() / data.realData.length;
+    var scaleY = svg.innerHeight() / (2 * maxPoint);
     plot.setAttributeNS(null, 'transform',
                         'translate(0 ' + translateY + ') ' +
                         'scale(' + scaleX + ' ' + scaleY + ')');
-    svg.appendChild(plot);
+    svg.append(plot);
 }
