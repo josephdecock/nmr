@@ -11,7 +11,7 @@ function showProcessor() {
         $('.button').unbind('mouseenter');
         $('.button').unbind('mouseleave');
     });
-    plotFID();
+    plotData(data.realData);
 }
 
 function showMenu(event, button) {
@@ -23,11 +23,11 @@ function showMenu(event, button) {
     }, null);
 }
 
-function plotFID() {
+function plotData(dataArray) {
     var svg = $('#svg');
     var points = '';
-    for (var i = 1; i <= data.realData.length; i++) {
-        points += i + ',' + data.realData[i - 1] + ' ';
+    for (var i = 1; i <= dataArray.length; i++) {
+        points += i + ',' + dataArray[i - 1] + ' ';
     }
     var plot = document.createElementNS('http://www.w3.org/2000/svg',
                                         'polyline');
@@ -35,9 +35,9 @@ function plotFID() {
     plot.setAttributeNS(null, 'fill', 'none');
     plot.setAttributeNS(null, 'stroke', 'blue');
     plot.setAttributeNS(null, 'stroke-width', '5');
-    var maxPoint =  Math.max.apply(Math, data.realData);
+    var maxPoint =  Math.max.apply(Math, dataArray);
     var translateY = svg.innerHeight() / 2;
-    var scaleX = svg.innerWidth() / data.realData.length;
+    var scaleX = svg.innerWidth() / dataArray.length;
     var scaleY = svg.innerHeight() / (2 * maxPoint);
     plot.setAttributeNS(null, 'transform',
                         'translate(0 ' + translateY + ') ' +
