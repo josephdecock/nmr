@@ -12,6 +12,11 @@ function showProcessor() {
         $('.button').unbind('mouseleave');
     });
     plotData(data.realData);
+    $(window).resize(function() {
+        // Resize plot when window is resized
+        $('#svg').empty();
+        plotData(data.realData);
+    });
 }
 
 function showMenu(event, button) {
@@ -25,10 +30,13 @@ function showMenu(event, button) {
 
 function plotData(dataArray) {
     var svg = $('#svg');
-    svg.height($(window).height() - $('.button').outerHeight() - 5);
-    $('#plot').height($(window).height() - $('.button').outerHeight - 5);
+    // Set svg canvas height to that of the available space in the window
     // It is not clear at this point where the extra 5 pixels come from
+    svg.height($(window).height() - $('.menu').outerHeight() - 5);
+    $('#plot').height($(window).height() - $('.menu').outerHeight - 5);
     var points = '';
+    // Convert dataArray into string of coordinates ('x,y x,y x,y')
+    // x is the array index, y is the data point
     for (var i = 1; i <= dataArray.length; i++) {
         points += i + ',' + dataArray[i - 1] + ' ';
     }
@@ -38,10 +46,13 @@ function plotData(dataArray) {
     plot.setAttributeNS(null, 'fill', 'none');
     plot.setAttributeNS(null, 'stroke', 'blue');
     plot.setAttributeNS(null, 'stroke-width', '5');
+    // Get maximum (absolute value) data point to determine plot height
     var maxAbsPoint =  Math.max(
         Math.max.apply(Math, dataArray),
         Math.abs(Math.min.apply(Math, dataArray)));
+    // Puts the X-axis in the middle of the plot. Should only be used for FIDs
     var translateY = svg.innerHeight() / 2;
+    // Scale the plot down to fit onto the SVG canvas
     var scaleX = svg.innerWidth() / dataArray.length;
     var scaleY = svg.innerHeight() / (2 * maxAbsPoint);
     plot.setAttributeNS(null, 'transform',
