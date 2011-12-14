@@ -170,5 +170,13 @@ ul {
 
 #plot {
     clear: both;
+    margin: 0;
+    padding: 0;
     background-color: white;
+}
+
+#svg {
+    margin: 0;
+    padding: 0;
+    border: none;
 }

@@ -25,6 +25,9 @@ function showMenu(event, button) {
 
 function plotData(dataArray) {
     var svg = $('#svg');
+    svg.height($(window).height() - $('.button').outerHeight() - 5);
+    $('#plot').height($(window).height() - $('.button').outerHeight - 5);
+    // It is not clear at this point where the extra 5 pixels come from
     var points = '';
     for (var i = 1; i <= dataArray.length; i++) {
         points += i + ',' + dataArray[i - 1] + ' ';
