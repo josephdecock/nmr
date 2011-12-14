@@ -35,10 +35,12 @@ function plotData(dataArray) {
     plot.setAttributeNS(null, 'fill', 'none');
     plot.setAttributeNS(null, 'stroke', 'blue');
     plot.setAttributeNS(null, 'stroke-width', '5');
-    var maxPoint =  Math.max.apply(Math, dataArray);
+    var maxAbsPoint =  Math.max(
+        Math.max.apply(Math, dataArray),
+        Math.abs(Math.min.apply(Math, dataArray)));
     var translateY = svg.innerHeight() / 2;
     var scaleX = svg.innerWidth() / dataArray.length;
-    var scaleY = svg.innerHeight() / (2 * maxPoint);
+    var scaleY = svg.innerHeight() / (2 * maxAbsPoint);
     plot.setAttributeNS(null, 'transform',
                         'translate(0 ' + translateY + ') ' +
                         'scale(' + scaleX + ' ' + scaleY + ')');
