@@ -117,28 +117,18 @@ function parseAcqus() {
 function parseFIDVarian() {
     // Get header info
     // I'm sure we don't actually need all of these
-    data.params.nblocks = data.rawData.getInt32(0, false);
-    console.log('nblocks:' + data.params.nblocks);
-    data.params.ntraces = data.rawData.getInt32(4, false);
-    console.log('ntraces:' + data.params.ntraces);
-    data.params.np = data.rawData.getInt32(8, false); // # of data points
-    console.log('np:' + data.params.np);
+    //data.params.nblocks = data.rawData.getInt32(0, false);
+    //data.params.ntraces = data.rawData.getInt32(4, false);
+    //data.params.np = data.rawData.getInt32(8, false); // # of data points
     data.params.ebytes = data.rawData.getInt32(12, false); // 16/32-bit
-    console.log('ebytes:' + data.params.ebytes);
-    data.params.tbytes = data.rawData.getInt32(16, false); // total data bytes
-    console.log('tbytes:' + data.params.tbytes);
-    data.params.bbytes = data.rawData.getInt32(20, false); // bytes per block
-    console.log('bbytes:' + data.params.bbytes);
-    data.params.version = data.rawData.getInt16(24, false);
-    console.log('version:' + data.params.version);
+    //data.params.tbytes = data.rawData.getInt32(16, false); // total data bytes
+    //data.params.bbytes = data.rawData.getInt32(20, false); // bytes per block
+    //data.params.version = data.rawData.getInt16(24, false);
     data.params.status = data.rawData.getInt16(26, false);
-    data.params.nbheaders = data.rawData.getInt16(28, false);
-    console.log('nbheaders:' + data.params.nbheaders);
+    //data.params.nbheaders = data.rawData.getInt16(28, false);
     // Status bits:
-    data.params.dataExists = data.params.status & 0x1;
-    console.log('dataExists:' + data.params.dataExists);
-    data.params.dataType = (data.params.status & 0x2) ? 'spectrum': 'FID';
-    console.log('dataType:' + data.params.dataType);
+    //data.params.dataExists = data.params.status & 0x1;
+    //data.params.dataType = (data.params.status & 0x2) ? 'spectrum': 'FID';
     data.params.numType = (data.params.status & 0x8) ?
         'Float32' :
         (data.params.status & 0x4) ?
@@ -154,11 +144,8 @@ function parseFIDVarian() {
         data.rawData.getValues = data.rawData.getFloat32;
         break;
     }
-    console.log('numType:' + data.params.numType);
-    data.params.complex = data.params.status & 0x10;
-    console.log('complex:' + data.params.complex);
-    data.params.hypercomplex = data.params.status & 0x20;
-    console.log('hypercomplex:' + data.params.hypercomplex);
+    //data.params.complex = data.params.status & 0x10;
+    //data.params.hypercomplex = data.params.status & 0x20;
     // I don't know what the rest of the status bits are for
     // and I don't really care at this point.
     
