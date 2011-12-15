@@ -34,15 +34,15 @@ function plotData(dataArray) {
     // It is not clear at this point where the extra 5 pixels come from
     svg.height($(window).height() - $('.menu').outerHeight() - 5);
     $('#plot').height($(window).height() - $('.menu').outerHeight - 5);
-    var points = '';
+    var points = new Array;
     // Convert dataArray into string of coordinates ('x,y x,y x,y')
     // x is the array index, y is the data point
     for (var i = 1; i <= dataArray.length; i++) {
-        points += i + ',' + dataArray[i - 1] + ' ';
+        points.push(i + ',' + dataArray[i - 1]);
     }
     var plot = document.createElementNS('http://www.w3.org/2000/svg',
                                         'polyline');
-    plot.setAttributeNS(null, 'points', points);
+    plot.setAttributeNS(null, 'points', points.join(' '));
     plot.setAttributeNS(null, 'fill', 'none');
     plot.setAttributeNS(null, 'stroke', 'blue');
     plot.setAttributeNS(null, 'stroke-width', '5');
