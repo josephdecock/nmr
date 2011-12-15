@@ -112,11 +112,28 @@ function parseProcpar() {
 }
 
 function parseAcqus() {
+    var reader = new FileReader();
+    reader.onload = (function() {
+        var lines = reader.result.split('\n');
+        for (var i in lines) {
+            if (data.littleEndian === undefined) {
+                var match = /##\$BYTORDA= (\d)/.exec(lines[i]);
+                if (match) {
+                    // (\d) = 1 indicates big endian
+                    data.littleEndian = (match[1] == 1) ? false : true;
+                }
+            }
+        }
+    });
+    reader.onerror = (function() {
+        console.log(reader.error.code);
+    });
+    reader.readAsText(data.files.acqus);
 }
 
 function parseFIDVarian() {
+    // Varian data is always big endian
     // Get header info
-    // I'm sure we don't actually need all of these
     //data.params.nblocks = data.rawData.getInt32(0, false);
     //data.params.ntraces = data.rawData.getInt32(4, false);
     //data.params.np = data.rawData.getInt32(8, false); // # of data points
@@ -164,22 +181,18 @@ function parseFIDVarian() {
         var iPoint = data.rawData.getValues(i + data.params.ebytes, false);
         data.iData.push(iPoint);
     }
-/*    for (var i = 60; i < data.rawData.byteLength; i += 2 * data.params.ebytes) {
-        // Separate real component from imaginary component
-        // This is every other data point (2 * number size)
-        var point = data.rawData.getValues(i, false);
-        data.realData.push(point);
-    }
-    data.imaginaryData = new Array();
-    // First imaginary data point is at 64 bytes
-    for (i = 60 + data.params.ebytes;
-         i < data.rawData.byteLength;
-         i += 2 * data.params.ebytes) {
-        // Get imaginary component
-        point = data.rawData.getValues(i, false);
-        data.imaginaryData.push(point);
-    }*/
 }
 
 function parseFIDBruker() {
+    // Bruker data is (probably) always 32-bit integers
+    data.rData = new Array();
+    data.iData = new Array();
+    for (var i = 0; i < data.rawData.byteLength; i += 8) {
+        // Separate real component from imaginary component
+        // This is every other data point
+        var rPoint = data.rawData.getInt32(i, data.littleEndian);
+        data.rData.push(rPoint);
+        var iPoint = data.rawData.getInt32(i + 4, data.littleEndian);
+        data.iData.push(iPoint);
+    }
 }
