@@ -11,11 +11,11 @@ function showProcessor() {
         $('.button').unbind('mouseenter');
         $('.button').unbind('mouseleave');
     });
-    plotData(data.realData);
+    plotData(data.rData);
     $(window).resize(function() {
         // Resize plot when window is resized
         $('#svg').empty();
-        plotData(data.realData);
+        plotData(data.rData);
     });
 }
 
