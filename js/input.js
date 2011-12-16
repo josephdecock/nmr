@@ -100,7 +100,7 @@ function readFiles(vendor) {
         parseFID();
         // Switch to processor view
         $('#input_container').hide();
-        showProcessor(); // in processor.js
+        initProcessor(); // in processor.js
     });
     reader.onerror = (function() {
         alert('You need to access this using Chrome either through a webserver or with the --allow-file-access-from-files flag.');
