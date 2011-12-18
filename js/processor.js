@@ -41,9 +41,10 @@ function showMenu(event, button) {
 
 function plotData() {
     var svg = $('#svg');
-    // Set svg canvas height to that of the available space in the window
+    // Set svg canvas size to that of the available space in the window
     // It is not clear at this point where the extra 5 pixels come from
     svg.height($(window).height() - $('.menu').outerHeight() - 5);
+    svg.width($(window).width());
     $('#plot').height($(window).height() - $('.menu').outerHeight - 5);
     var plot = document.createElementNS('http://www.w3.org/2000/svg',
                                         'polyline');

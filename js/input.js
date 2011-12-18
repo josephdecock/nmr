@@ -96,7 +96,12 @@ function readFiles(vendor) {
     }
     var reader = new FileReader();
     reader.onload = (function() {
-        data.rawData = new DataView(reader.result);
+        if (window.DataView) {
+            data.rawData = new DataView(reader.result);
+        }
+        else {
+            data.rawData = new jDataView(reader.result);
+        }
         parseFID();
         // Switch to processor view
         $('#input_container').hide();
