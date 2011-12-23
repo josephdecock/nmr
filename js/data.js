@@ -1,24 +1,42 @@
 function Data() {
     this.files = new Object;
     this.params = new Object;
+    this.rData = new Array; // Real FID data
+    this.iData = new Array; // Imaginary FID data
+    this.pData = new Array; // Processed data (after FT)
 }
 
 Data.prototype.plot = function() {
-    var svg = $('#svg');
-    // Set svg canvas size to that of the available space in the window
-    // It is not clear at this point where the extra 5 pixels come from
-    svg.height($(window).height() - $('.menu').outerHeight() - 5);
-    svg.width($(window).width());
-    $('#plot').height($(window).height() - $('.menu').outerHeight - 5);
+    var plotPoints = new Array;
+    // Convert data into string of coordinates ('x,y x,y x,y')
+    // x is the array index, y is the data point
+    for (var i = 1; i <= this.rData.length; i++) {
+        plotPoints.push(i + ',' + this.rData[i - 1]);
+    }
+    // Get maximum data point to determine plot height
+    this.maxPoint = Math.max.apply(Math, this.rData);
+    // Maximum absolute value point is needed to plot FID
+    this.maxAbsPoint = Math.max(
+        this.maxPoint, Math.abs(Math.min.apply(Math, this.rData)));
     if (!this.spectrum) {
         this.spectrum = document.createElementNS('http://www.w3.org/2000/svg',
                                                  'polyline');
         this.spectrum.setAttributeNS(null, 'fill', 'none');
         this.spectrum.setAttributeNS(null, 'stroke', 'blue');
         this.spectrum.setAttributeNS(null, 'stroke-width', '5');
-        this.spectrum.setAttributeNS(null, 'points', data.plotPoints.join(' '));
-        svg.append(this.spectrum);
+        $('#svg').svg.append(this.spectrum);
     }
+    this.spectrum.setAttributeNS(null, 'points', plotPoints.join(' '));
+    this.transformPlot();
+}
+
+Data.prototype.transformPlot = function() {
+    var svg = $('#svg');
+    // Set svg canvas size to that of the available space in the window
+    // It is not clear at this point where the extra 5 pixels come from
+    svg.height($(window).height() - $('.menu').outerHeight() - 5);
+    svg.width($(window).width());
+    $('#plot').height($(window).height() - $('.menu').outerHeight - 5);
     // Puts the X-axis in the middle of the plot. Should only be used for FIDs
     var translateY = svg.innerHeight() / 2;
     // Scale the plot down to fit onto the SVG canvas

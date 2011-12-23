@@ -175,29 +175,31 @@ function parseFIDVarian() {
     // just repeats the file status.
     // We might need the correction values though...
 
-    data.rData = new Array();
-    data.iData = new Array();
+    var rData = new Array();
+    var iData = new Array();
     // Actual data starts after 60 bytes
     for (var i = 60; i < data.rawData.byteLength; i += 2 * data.params.ebytes) {
         // Separate real component from imaginary component
         // This is every other data point
         var rPoint = data.rawData.getValues(i, false);
-        data.rData.push(rPoint);
+        rData.push(rPoint);
         var iPoint = data.rawData.getValues(i + data.params.ebytes, false);
-        data.iData.push(iPoint);
+        iData.push(iPoint);
     }
+    data.setData(rData, iData);
 }
 
 function parseFIDBruker() {
     // Bruker data is (probably) always 32-bit integers
-    data.rData = new Array();
-    data.iData = new Array();
+    var rData = new Array();
+    var iData = new Array();
     for (var i = 0; i < data.rawData.byteLength; i += 8) {
         // Separate real component from imaginary component
         // This is every other data point
         var rPoint = data.rawData.getInt32(i, data.littleEndian);
-        data.rData.push(rPoint);
+        rData.push(rPoint);
         var iPoint = data.rawData.getInt32(i + 4, data.littleEndian);
-        data.iData.push(iPoint);
+        iData.push(iPoint);
     }
+    data.setData(rData, iData);
 }
