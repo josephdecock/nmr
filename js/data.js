@@ -24,7 +24,7 @@ Data.prototype.plot = function() {
         this.spectrum.setAttributeNS(null, 'fill', 'none');
         this.spectrum.setAttributeNS(null, 'stroke', 'blue');
         this.spectrum.setAttributeNS(null, 'stroke-width', '5');
-        $('#svg').svg.append(this.spectrum);
+        $('#svg').append(this.spectrum);
     }
     this.spectrum.setAttributeNS(null, 'points', plotPoints.join(' '));
     this.transformPlot();

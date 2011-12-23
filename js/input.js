@@ -1,6 +1,5 @@
 'use strict';
 
-var vendor;
 var data;
 
 $(document).ready(function() {
@@ -39,31 +38,31 @@ function handleFiles(event) {
             data.files.fid = inputFiles[i];
             break;
         case 'procpar':
-            if (vendor === 'bruker') {
-                alert('Vendor mismatch');
+            if (data.params.vendor === 'bruker') {
+                alert('Data.Params.Vendor mismatch');
                 break;
             }
             $('.procpar').show();
             data.files.procpar = inputFiles[i];
-            vendor = 'varian';
+            data.params.vendor = 'varian';
             break;
         case 'text':
-            if (vendor === 'bruker') {
-                alert('Vendor mismatch');
+            if (data.params.vendor === 'bruker') {
+                alert('Data.Params.Vendor mismatch');
                 break;
             }
             $('.text').show();
             data.files.text = inputFiles[i];
-            vendor = 'varian';
+            data.params.vendor = 'varian';
             break;
         case 'acqus':
-            if (vendor === 'varian') {
-                alert('Vendor mismatch');
+            if (data.params.vendor === 'varian') {
+                alert('Data.Params.Vendor mismatch');
                 break;
             }
             $('.acqus').show();
             data.files.acqus = inputFiles[i];
-            vendor = 'bruker';
+            data.params.vendor = 'bruker';
             break;
         default:
             alert('Unrecognized file type: ' + inputFiles[i].name);
@@ -76,13 +75,13 @@ function handleFiles(event) {
     $('#file_list').html(fileList);
     if (data.files.fid && (data.files.procpar || data.files.acqus)) {
         $('#submit').attr('disabled', false);
-        $('#submit').bind('click', function() {readFiles(vendor);});
+        $('#submit').bind('click', function() {readFiles();});
     }
 }
 
-function readFiles(vendor) {
+function readFiles() {
     var parseFID;
-    switch (vendor) {
+    switch (data.params.vendor) {
     case 'varian':
         parseProcpar(data.files.procpar);
         parseFID = parseFIDVarian;
