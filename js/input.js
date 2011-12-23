@@ -191,15 +191,12 @@ function parseFIDVarian() {
 
 function parseFIDBruker() {
     // Bruker data is (probably) always 32-bit integers
-    var rData = new Array();
-    var iData = new Array();
     for (var i = 0; i < data.rawData.byteLength; i += 8) {
         // Separate real component from imaginary component
         // This is every other data point
         var rPoint = data.rawData.getInt32(i, data.littleEndian);
-        rData.push(rPoint);
+        data.rData.push(rPoint);
         var iPoint = data.rawData.getInt32(i + 4, data.littleEndian);
-        iData.push(iPoint);
+        data.iData.push(iPoint);
     }
-    data.setData(rData, iData);
 }
