@@ -175,18 +175,15 @@ function parseFIDVarian() {
     // just repeats the file status.
     // We might need the correction values though...
 
-    var rData = new Array();
-    var iData = new Array();
     // Actual data starts after 60 bytes
     for (var i = 60; i < data.rawData.byteLength; i += 2 * data.params.ebytes) {
         // Separate real component from imaginary component
         // This is every other data point
         var rPoint = data.rawData.getValues(i, false);
-        rData.push(rPoint);
+        data.rData.push(rPoint);
         var iPoint = data.rawData.getValues(i + data.params.ebytes, false);
-        iData.push(iPoint);
+        data.iData.push(iPoint);
     }
-    data.setData(rData, iData);
 }
 
 function parseFIDBruker() {
