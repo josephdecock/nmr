@@ -14,7 +14,7 @@ function initProcessor() {
     data.plot();
     $(window).resize(function() {
         // Resize plot when window is resized
-        data.plot();
+        data.transformPlot();
     });
 }
 
